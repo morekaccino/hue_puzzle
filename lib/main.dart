@@ -16,17 +16,23 @@ class _MyAppState extends State<MyApp> {
   Color bg = const Color(0xff1d1d1d);
   int rowCount = 10, colCount = 5;
 
-  List<List<Color>> colorMatrix = [];
+  List<List<Color?>> colorMatrix = [];
 
   List<List<Widget>> fieldMatrix = [];
 
   void makeColors(int row, int col) {
+    Color a = Color((math.Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0),
+        b = Color((math.Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0),
+        c = Color((math.Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0),
+        d = Color((math.Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0);
+    double rowStep = 1 / row;
     for (int i = 0; i < row; i++) {
-      var temp = <Color>[];
-      for (int j = 0; j < col; j++) {
-        Color rndColor = Color((math.Random().nextDouble() * 0xFFFFFF).toInt())
-            .withOpacity(1.0);
-        temp.add(rndColor);
+      Color? startBase = Color.lerp(a, c, i * rowStep);
+      Color? endBase = Color.lerp(b, d, i * rowStep);
+      var temp = <Color?>[startBase];
+      double colStep = 1 / col;
+      for (int j = 1; j < col; j++) {
+        temp.add(Color.lerp(startBase, endBase, j * colStep));
       }
       colorMatrix.add(temp);
     }
@@ -54,7 +60,7 @@ class _MyAppState extends State<MyApp> {
                 child: DragTarget<List<int>>(
                   onAccept: (indexes) {
                     int i = indexes[0], j = indexes[1];
-                    Color tempColor = colorMatrix[i][j];
+                    Color? tempColor = colorMatrix[i][j];
                     colorMatrix[i][j] = colorMatrix[idx][idy];
                     colorMatrix[idx][idy] = tempColor;
 
