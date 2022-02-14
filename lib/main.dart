@@ -14,17 +14,21 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   Color bg = const Color(0xff1d1d1d);
-  int rowCount = 10, colCount = 5;
+  int rowCount = 12, colCount = 25;
 
-  List<List<Color?>> colorMatrix = [];
+  List<List<Color?>> colorMatrix = [], answer = [];
 
   List<List<Widget>> fieldMatrix = [];
 
   void makeColors(int row, int col) {
-    Color a = Color((math.Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0),
-        b = Color((math.Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0),
-        c = Color((math.Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0),
-        d = Color((math.Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0);
+    Color a = Color((math.Random().nextDouble() * 0xFFFFFF).toInt())
+            .withOpacity(1.0),
+        b = Color((math.Random().nextDouble() * 0xFFFFFF).toInt())
+            .withOpacity(1.0),
+        c = Color((math.Random().nextDouble() * 0xFFFFFF).toInt())
+            .withOpacity(1.0),
+        d = Color((math.Random().nextDouble() * 0xFFFFFF).toInt())
+            .withOpacity(1.0);
     double rowStep = 1 / row;
     for (int i = 0; i < row; i++) {
       Color? startBase = Color.lerp(a, c, i * rowStep);
@@ -35,6 +39,34 @@ class _MyAppState extends State<MyApp> {
         temp.add(Color.lerp(startBase, endBase, j * colStep));
       }
       colorMatrix.add(temp);
+      answer.add(temp);
+    }
+  }
+
+  bool check() {
+    for (int idx = 0; idx < colorMatrix.length; idx++) {
+      for (int idy = 0; idy < colorMatrix[0].length; idy++) {
+        if (colorMatrix[idx][idy] != answer[idx][idy]) {
+          return false;
+        }
+      }
+    }
+    print("Yay!!!!");
+    return true;
+  }
+
+  void shuffleColors() {
+    var r = math.Random();
+    for (int i = 0; i < 2 * rowCount * colCount; i++) {
+      int i = r.nextInt(rowCount), j = r.nextInt(colCount);
+      int x = r.nextInt(rowCount), y = r.nextInt(colCount);
+      if (((i == 0 || i == rowCount - 1) && (j == 0 || j == colCount)) ||
+          ((x == 0 || x == rowCount - 1) && (y == 0 || y == colCount))) {
+        continue;
+      }
+      var temp = colorMatrix[i][j];
+      colorMatrix[i][j] = colorMatrix[x][y];
+      colorMatrix[x][y] = temp;
     }
   }
 
@@ -49,11 +81,12 @@ class _MyAppState extends State<MyApp> {
         if ((idx == 0 || idx == colorMatrix.length - 1) &&
             (idy == 0 || idy == colorMatrix[0].length - 1)) {
           rowTemp.add(Expanded(
-            child: Container(color: colorMatrix[idx][idy]),
+            child: Container(color: colorMatrix[idx][idy], padding: const EdgeInsets.all(0),),
           ));
         } else {
           rowTemp.add(Expanded(
             child: Draggable<List<int>>(
+
               data: <int>[idx, idy],
               child: Container(
                 color: colorMatrix[idx][idy],
@@ -64,7 +97,7 @@ class _MyAppState extends State<MyApp> {
                     colorMatrix[i][j] = colorMatrix[idx][idy];
                     colorMatrix[idx][idy] = tempColor;
 
-                    setState(() {});
+                    setState(() {check();});
                   },
                   builder: (context, candidateData, rejectedData) {
                     // if (candidateData.length > 0) {
@@ -80,6 +113,7 @@ class _MyAppState extends State<MyApp> {
                     // );
                     return Container(
                       color: colorMatrix[idx][idy],
+                      padding: const EdgeInsets.all(0),
                     );
                   },
                 ),
@@ -114,6 +148,7 @@ class _MyAppState extends State<MyApp> {
     // TODO: implement initState
     super.initState();
     makeColors(rowCount, colCount);
+    // shuffleColors();
   }
 
   @override
