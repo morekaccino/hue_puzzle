@@ -2,7 +2,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MaterialApp(home: const MyApp()));
 }
 
 class MyApp extends StatefulWidget {
@@ -14,7 +14,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   Color bg = const Color(0xff1d1d1d);
-  Color? destinationColor, sourceColor;
+  int rowCount = 10, colCount = 5;
 
   List<List<Color>> colorMatrix = [];
 
@@ -32,16 +32,57 @@ class _MyAppState extends State<MyApp> {
     }
   }
 
-
-
-  Widget makeWidgets() {
+  Widget makeWidgets({required double screenWidth, required double screenHeight}) {
+    double height = screenHeight / rowCount;
+    double width = screenWidth / colCount;
     var colTemp = <Widget>[];
     for (int idx = 0; idx < colorMatrix.length; idx++) {
       var rowTemp = <Widget>[];
       for (int idy = 0; idy < colorMatrix[0].length; idy++) {
         rowTemp.add(Expanded(
-          child: Container(
-            color: colorMatrix[idx][idy],
+          child: Draggable<List<int>>(
+            data: <int>[idx, idy],
+            child: Container(
+              width: 100,
+              height: 100,
+              color: colorMatrix[idx][idy],
+              child: DragTarget<List<int>>(
+                onAccept: (indexes) {
+                  int i = indexes[0], j = indexes[1];
+                  Color tempColor = colorMatrix[i][j];
+                  colorMatrix[i][j] = colorMatrix[idx][idy];
+                  colorMatrix[idx][idy] = tempColor;
+
+                  setState(() {});
+                },
+                builder: (context, candidateData, rejectedData) {
+                  // if (candidateData.length > 0) {
+                  //   try {
+                  //     int i = candidateData[0]![0], j = candidateData[0]![1];
+                  //     return Container(
+                  //       color: colorMatrix[i][j],
+                  //     );
+                  //   } finally {}
+                  // }
+                  // return Container(
+                  //   color: Colors.transparent,
+                  // );
+                  return Container(
+                    color: colorMatrix[idx][idy],
+                  );
+                },
+              ),
+            ),
+            feedback: Container(
+              width: width,
+              height: height,
+              color: colorMatrix[idx][idy],
+            ),
+            childWhenDragging: Container(
+              width: 100,
+              height: 100,
+              color: const Color(0xff1d1d1d),
+            ),
           ),
         ));
       }
@@ -60,16 +101,16 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    makeColors(10, 5);
+    makeColors(rowCount, colCount);
   }
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Container(
-        color: bg,
-        child: makeWidgets(),
-      ),
+    double screenwidth = MediaQuery.of(context).size.width;
+    double screenheight = MediaQuery.of(context).size.height;
+    return Container(
+      color: bg,
+      child: makeWidgets(screenHeight: screenheight, screenWidth: screenwidth),
     );
   }
 }
