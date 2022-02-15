@@ -14,7 +14,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   Color bg = const Color(0xff1d1d1d);
-  int rowCount = 12, colCount = 25;
+  int rowCount = 5, colCount = 10;
 
   List<List<Color?>> colorMatrix = [], answer = [];
 
@@ -60,8 +60,8 @@ class _MyAppState extends State<MyApp> {
     for (int i = 0; i < 2 * rowCount * colCount; i++) {
       int i = r.nextInt(rowCount), j = r.nextInt(colCount);
       int x = r.nextInt(rowCount), y = r.nextInt(colCount);
-      if (((i == 0 || i == rowCount - 1) && (j == 0 || j == colCount)) ||
-          ((x == 0 || x == rowCount - 1) && (y == 0 || y == colCount))) {
+      if (((i == 0 || i == rowCount - 1) && (j == 0 || j == colCount - 1)) ||
+          ((x == 0 || x == rowCount - 1) && (y == 0 || y == colCount - 1))) {
         continue;
       }
       var temp = colorMatrix[i][j];
@@ -148,7 +148,7 @@ class _MyAppState extends State<MyApp> {
     // TODO: implement initState
     super.initState();
     makeColors(rowCount, colCount);
-    // shuffleColors();
+    shuffleColors();
   }
 
   @override
