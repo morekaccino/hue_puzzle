@@ -5,7 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 
 void main() {
-  runApp(MaterialApp(home: const MyApp()));
+  runApp(MaterialApp(home: MyApp()));
 }
 
 class MyApp extends StatefulWidget {
@@ -175,8 +175,8 @@ class _MyAppState extends State<MyApp> {
     double screenwidth = MediaQuery.of(context).size.width;
     double screenheight = MediaQuery.of(context).size.height;
     if (math.max(screenheight, screenwidth) < 1000) {
-      rowCount = (screenheight / 100).ceil();
-      colCount = (screenwidth / 100).ceil();
+      rowCount = (screenheight / 150).ceil();
+      colCount = (screenwidth / 150).ceil();
     }
     else {
       rowCount = (screenheight / 250).ceil();
@@ -235,7 +235,7 @@ class _MyAppState extends State<MyApp> {
               width: screenwidth,
               height: screenheight,
               child: BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: 0, sigmaY: 0),
+                filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
                 child: TextButton(
                   style: ButtonStyle(
                     overlayColor: MaterialStateColor.resolveWith((states) => Colors.black26),
