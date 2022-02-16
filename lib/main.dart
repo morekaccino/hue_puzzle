@@ -3,9 +3,8 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-
 void main() {
-  runApp(MaterialApp(home: MyApp()));
+  runApp(const MaterialApp(home: MyApp()));
 }
 
 class MyApp extends StatefulWidget {
@@ -165,20 +164,14 @@ class _MyAppState extends State<MyApp> {
   }
 
   @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-  }
-
-  @override
   void didChangeDependencies() {
+    super.didChangeDependencies();
     double screenwidth = MediaQuery.of(context).size.width;
     double screenheight = MediaQuery.of(context).size.height;
     if (math.max(screenheight, screenwidth) < 1000) {
       rowCount = (screenheight / 150).ceil();
       colCount = (screenwidth / 150).ceil();
-    }
-    else {
+    } else {
       rowCount = (screenheight / 250).ceil();
       colCount = (screenwidth / 250).ceil();
     }
@@ -203,14 +196,15 @@ class _MyAppState extends State<MyApp> {
         Visibility(
           visible: startVisibility,
           child: AnimatedContainer(
-            duration: const Duration(milliseconds: 700),
+              duration: const Duration(milliseconds: 700),
               width: screenwidth,
               height: screenheight,
               child: BackdropFilter(
                 filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
                 child: TextButton(
                   style: ButtonStyle(
-                    overlayColor: MaterialStateColor.resolveWith((states) => Colors.black26),
+                    overlayColor: MaterialStateColor.resolveWith(
+                        (states) => Colors.black26),
                   ),
                   child: Text(
                     "PLAY!",
@@ -238,7 +232,8 @@ class _MyAppState extends State<MyApp> {
                 filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
                 child: TextButton(
                   style: ButtonStyle(
-                    overlayColor: MaterialStateColor.resolveWith((states) => Colors.black26),
+                    overlayColor: MaterialStateColor.resolveWith(
+                        (states) => Colors.black26),
                   ),
                   child: Center(
                     child: Column(
@@ -247,20 +242,17 @@ class _MyAppState extends State<MyApp> {
                       children: [
                         Text(
                           "WOW!",
-                          style:
-                          GoogleFonts.monoton(fontSize: 90, color: Colors.black),
+                          style: GoogleFonts.monoton(
+                              fontSize: 90, color: Colors.black),
                         ),
-                        Wrap(
-                          alignment: WrapAlignment.center,
-                          children: [
-                            Text(
-                              "You Are Good At This!",
-                              textAlign: TextAlign.center,
-                              style:
-                              GoogleFonts.monoton(fontSize: 45, color: Colors.black),
-                            ),
-                          ]
-                        ),
+                        Wrap(alignment: WrapAlignment.center, children: [
+                          Text(
+                            "You Are Good At This!",
+                            textAlign: TextAlign.center,
+                            style: GoogleFonts.monoton(
+                                fontSize: 45, color: Colors.black),
+                          ),
+                        ]),
                       ],
                     ),
                   ),

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="210mm"
+   height="297mm"
+   viewBox="0 0 210 297"
+   version="1.1"
+   id="svg5"
+   inkscape:version="1.1.2 (b8e25be833, 2022-02-05)"
+   sodipodi:docname="logo.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#505050"
+     bordercolor="#eeeeee"
+     borderopacity="1"
+     inkscape:pageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="0"
+     inkscape:document-units="mm"
+     showgrid="false"
+     inkscape:zoom="1.06106"
+     inkscape:cx="-967.42878"
+     inkscape:cy="515.5222"
+     inkscape:window-width="1920"
+     inkscape:window-height="1009"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs2">
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient1385-4">
+      <stop
+         style="stop-color:#ffff00;stop-opacity:1"
+         offset="0"
+         id="stop1381" />
+      <stop
+         style="stop-color:#ff07aa;stop-opacity:1"
+         offset="1"
+         id="stop1383" />
+    </linearGradient>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient1385-4"
+       id="linearGradient1387"
+       x1="-306.00784"
+       y1="86.666275"
+       x2="-191.6105"
+       y2="185.36554"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1.2788941,0,0,1.4823015,55.991611,-70.308359)" />
+  </defs>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <rect
+       style="mix-blend-mode:normal;fill:url(#linearGradient1387);fill-opacity:1;fill-rule:evenodd;stroke-width:0.364291"
+       id="rect31"
+       width="146.30208"
+       height="146.30208"
+       x="-335.36005"
+       y="58.157185"
+       inkscape:export-filename="C:\Users\mrkaz\OneDrive\Desktop\rect31.png"
+       inkscape:export-xdpi="177.78011"
+       inkscape:export-ydpi="177.78011" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:85.9049px;line-height:1.25;font-family:sans-serif;opacity:1;fill:#34256d;fill-opacity:1;stroke:none;stroke-width:0.447421"
+       x="-310.43683"
+       y="154.95894"
+       id="text3706"><tspan
+         sodipodi:role="line"
+         id="tspan3704"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:85.9049px;font-family:'Bauhaus 93';-inkscape-font-specification:'Bauhaus 93, ';fill:#34256d;fill-opacity:1;stroke-width:0.447421"
+         x="-310.43683"
+         y="154.95894">hp</tspan></text>
+  </g>
+</svg>
