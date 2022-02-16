@@ -4,5 +4,5 @@ Hue Puzzle project.
 
 ## Play!
 
-web: huepuzzle.weba.pp
+[On Web](https://huepuzzle.web.app/)
 
