@@ -1,5 +1,8 @@
 import 'dart:math' as math;
+import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+
 
 void main() {
   runApp(MaterialApp(home: const MyApp()));
@@ -14,13 +17,17 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   Color bg = const Color(0xff1d1d1d);
-  int rowCount = 5, colCount = 10;
+  int rowCount = 3, colCount = 2;
+
+  bool startVisibility = true, winVisibility = false, makeColorLock = false;
 
   List<List<Color?>> colorMatrix = [], answer = [];
 
   List<List<Widget>> fieldMatrix = [];
 
   void makeColors(int row, int col) {
+    colorMatrix = [];
+    answer = [];
     Color a = Color((math.Random().nextDouble() * 0xFFFFFF).toInt())
             .withOpacity(1.0),
         b = Color((math.Random().nextDouble() * 0xFFFFFF).toInt())
@@ -39,7 +46,16 @@ class _MyAppState extends State<MyApp> {
         temp.add(Color.lerp(startBase, endBase, j * colStep));
       }
       colorMatrix.add(temp);
-      answer.add(temp);
+    }
+
+    // Deep copy of answer
+    for (int i = 0; i < row; i++) {
+      List<Color> tempRow = <Color>[];
+      for (int j = 0; j < col; j++) {
+        // Color tempColor = Color(colorMatrix[i][j]!.value);
+        tempRow.add(colorMatrix[i][j]!);
+      }
+      answer.add(tempRow);
     }
   }
 
@@ -51,7 +67,8 @@ class _MyAppState extends State<MyApp> {
         }
       }
     }
-    print("Yay!!!!");
+    winVisibility = true;
+    makeColorLock = false;
     return true;
   }
 
@@ -81,12 +98,14 @@ class _MyAppState extends State<MyApp> {
         if ((idx == 0 || idx == colorMatrix.length - 1) &&
             (idy == 0 || idy == colorMatrix[0].length - 1)) {
           rowTemp.add(Expanded(
-            child: Container(color: colorMatrix[idx][idy], padding: const EdgeInsets.all(0),),
+            child: Container(
+              color: colorMatrix[idx][idy],
+              padding: const EdgeInsets.all(0),
+            ),
           ));
         } else {
           rowTemp.add(Expanded(
             child: Draggable<List<int>>(
-
               data: <int>[idx, idy],
               child: Container(
                 color: colorMatrix[idx][idy],
@@ -97,7 +116,9 @@ class _MyAppState extends State<MyApp> {
                     colorMatrix[i][j] = colorMatrix[idx][idy];
                     colorMatrix[idx][idy] = tempColor;
 
-                    setState(() {check();});
+                    setState(() {
+                      check();
+                    });
                   },
                   builder: (context, candidateData, rejectedData) {
                     // if (candidateData.length > 0) {
@@ -147,17 +168,115 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    makeColors(rowCount, colCount);
-    shuffleColors();
+  }
+
+  @override
+  void didChangeDependencies() {
+    double screenwidth = MediaQuery.of(context).size.width;
+    double screenheight = MediaQuery.of(context).size.height;
+    if (math.max(screenheight, screenwidth) < 1000) {
+      rowCount = (screenheight / 100).ceil();
+      colCount = (screenwidth / 100).ceil();
+    }
+    else {
+      rowCount = (screenheight / 250).ceil();
+      colCount = (screenwidth / 250).ceil();
+    }
+    if (makeColorLock == false) {
+      makeColors(rowCount, colCount);
+      makeColorLock = true;
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     double screenwidth = MediaQuery.of(context).size.width;
     double screenheight = MediaQuery.of(context).size.height;
-    return Container(
-      color: bg,
-      child: makeWidgets(screenHeight: screenheight, screenWidth: screenwidth),
+    return Stack(
+      children: [
+        Container(
+          color: bg,
+          child:
+              makeWidgets(screenHeight: screenheight, screenWidth: screenwidth),
+        ),
+        // Start
+        Visibility(
+          visible: startVisibility,
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 700),
+              width: screenwidth,
+              height: screenheight,
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+                child: TextButton(
+                  style: ButtonStyle(
+                    overlayColor: MaterialStateColor.resolveWith((states) => Colors.black26),
+                  ),
+                  child: Text(
+                    "PLAY!",
+                    style:
+                        GoogleFonts.monoton(fontSize: 90, color: Colors.black),
+                  ),
+                  onPressed: () async {
+                    startVisibility = !startVisibility;
+                    setState(() {});
+                    await Future.delayed(const Duration(milliseconds: 1000));
+                    shuffleColors();
+                    setState(() {});
+                  },
+                ),
+              )),
+        ),
+        // Win
+        Visibility(
+          visible: winVisibility,
+          child: AnimatedContainer(
+              duration: const Duration(milliseconds: 700),
+              width: screenwidth,
+              height: screenheight,
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 0, sigmaY: 0),
+                child: TextButton(
+                  style: ButtonStyle(
+                    overlayColor: MaterialStateColor.resolveWith((states) => Colors.black26),
+                  ),
+                  child: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          "WOW!",
+                          style:
+                          GoogleFonts.monoton(fontSize: 90, color: Colors.black),
+                        ),
+                        Wrap(
+                          alignment: WrapAlignment.center,
+                          children: [
+                            Text(
+                              "You Are Good At This!",
+                              textAlign: TextAlign.center,
+                              style:
+                              GoogleFonts.monoton(fontSize: 45, color: Colors.black),
+                            ),
+                          ]
+                        ),
+                      ],
+                    ),
+                  ),
+                  onPressed: () async {
+                    winVisibility = !winVisibility;
+                    setState(() {});
+                    makeColors(rowCount, colCount);
+                    setState(() {});
+                    await Future.delayed(const Duration(milliseconds: 1000));
+                    shuffleColors();
+                    setState(() {});
+                  },
+                ),
+              )),
+        ),
+      ],
     );
   }
 }
