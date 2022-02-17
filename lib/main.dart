@@ -105,6 +105,9 @@ class _MyAppState extends State<MyApp> {
         } else {
           rowTemp.add(Expanded(
             child: Draggable<List<int>>(
+              onDragUpdate: (dragdetails) {
+                print(dragdetails.localPosition);
+              },
               data: <int>[idx, idy],
               child: Container(
                 color: colorMatrix[idx][idy],
@@ -249,7 +252,7 @@ class _MyAppState extends State<MyApp> {
                           Text(
                             "You Are Good At This!",
                             textAlign: TextAlign.center,
-                            style: GoogleFonts.monoton(
+                            style: GoogleFonts.fredokaOne(
                                 fontSize: 45, color: Colors.black),
                           ),
                         ]),
