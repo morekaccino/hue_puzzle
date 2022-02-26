@@ -1,8 +1,8 @@
-# hue_puzzle
+# Hue Puzzle
 
-Hue Puzzle project.
+A gentle journey into colour and perception. Arrange mosaics of coloured tiles into perfectly ordered spectrums. Lovingly made for players who enjoy beautifully crafted puzzle games - or anyone who needs a few moments of visual tranquility.
 
 ## Play!
 
-[On Web](https://huepuzzle.web.app/)
+[Web](https://huepuzzle.web.app/)
 
